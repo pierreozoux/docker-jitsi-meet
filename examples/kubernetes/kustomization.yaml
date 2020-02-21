@@ -1,4 +1,4 @@
 resources:
 - deployment.yaml
 - jvb-service.yaml
-- ingress.yaml
+- web-service.yaml
