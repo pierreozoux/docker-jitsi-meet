@@ -85,6 +85,8 @@ spec:
           env:
             - name: JICOFO_AUTH_USER
               value: focus
+            - name: DISABLE_HTTPS
+              value: true
             - name: XMPP_DOMAIN
               value: meet.jitsi
             - name: XMPP_AUTH_DOMAIN
