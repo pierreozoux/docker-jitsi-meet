@@ -22,6 +22,18 @@ spec:
           image: jitsi/jicofo
           imagePullPolicy: Always
           env:
+            - name: JICOFO_AUTH_USER
+              value: focus
+            - name: JICOFO_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jitsi-config
+                  key: JICOFO_AUTH_PASSWORD
+            - name: JICOFO_COMPONENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jitsi-config
+                  key: JICOFO_COMPONENT_SECRET
             - name: XMPP_SERVER
               value: localhost
             - name: XMPP_DOMAIN
@@ -30,18 +42,6 @@ spec:
               value: auth.meet.jitsi
             - name: XMPP_INTERNAL_MUC_DOMAIN
               value: internal-muc.meet.jitsi
-            - name: JICOFO_COMPONENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: jitsi-config
-                  key: JICOFO_COMPONENT_SECRET
-            - name: JICOFO_AUTH_USER
-              value: focus
-            - name: JICOFO_AUTH_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: jitsi-config
-                  key: JICOFO_AUTH_PASSWORD
             - name: TZ
               value: America/Los_Angeles
             - name: JVB_BREWERY_MUC
@@ -50,14 +50,13 @@ spec:
           image: jitsi/prosody
           imagePullPolicy: Always
           env:
-            - name: XMPP_DOMAIN
-              value: meet.jitsi
-            - name: XMPP_AUTH_DOMAIN
-              value: auth.meet.jitsi
-            - name: XMPP_MUC_DOMAIN
-              value: muc.meet.jitsi
-            - name: XMPP_INTERNAL_MUC_DOMAIN
-              value: internal-muc.meet.jitsi
+            - name: JICOFO_AUTH_USER
+              value: focus
+            - name: JICOFO_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jitsi-config
+                  key: JICOFO_AUTH_PASSWORD
             - name: JICOFO_COMPONENT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -70,13 +69,14 @@ spec:
                 secretKeyRef:
                   name: jitsi-config
                   key: JVB_AUTH_PASSWORD
-            - name: JICOFO_AUTH_USER
-              value: focus
-            - name: JICOFO_AUTH_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: jitsi-config
-                  key: JICOFO_AUTH_PASSWORD
+            - name: XMPP_AUTH_DOMAIN
+              value: auth.meet.jitsi
+            - name: XMPP_DOMAIN
+              value: meet.jitsi
+            - name: XMPP_INTERNAL_MUC_DOMAIN
+              value: internal-muc.meet.jitsi
+            - name: XMPP_MUC_DOMAIN
+              value: muc.meet.jitsi
             - name: TZ
               value: America/Los_Angeles
             - name: JVB_TCP_HARVESTER_DISABLED
@@ -107,37 +107,32 @@ spec:
           image: jitsi/jvb
           imagePullPolicy: Always
           env:
-            - name: XMPP_SERVER
-              value: localhost
             - name: DOCKER_HOST_ADDRESS
               value: <Set the address for any node in the cluster here>
             - name: XMPP_DOMAIN
               value: meet.jitsi
-            - name: XMPP_AUTH_DOMAIN
-              value: auth.meet.jitsi
-            - name: XMPP_INTERNAL_MUC_DOMAIN
-              value: internal-muc.meet.jitsi
-            - name: JVB_STUN_SERVERS
-              value: stun.l.google.com:19302,stun1.l.google.com:19302,stun2.l.google.com:19302
             - name: JICOFO_AUTH_USER
               value: focus
-            - name: JVB_TCP_HARVESTER_DISABLED
-              value: "true"
             - name: JVB_AUTH_USER
               value: jvb
-            - name: JVB_PORT
-              value: "30300"
             - name: JVB_AUTH_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: jitsi-config
                   key: JVB_AUTH_PASSWORD
-            - name: JICOFO_AUTH_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: jitsi-config
-                  key: JICOFO_AUTH_PASSWORD
             - name: JVB_BREWERY_MUC
               value: jvbbrewery
+            - name: JVB_PORT
+              value: "30300"
+            - name: JVB_STUN_SERVERS
+              value: stun.l.google.com:19302,stun1.l.google.com:19302,stun2.l.google.com:19302
+            - name: JVB_TCP_HARVESTER_DISABLED
+              value: "true"
             - name: TZ
               value: America/Los_Angeles
+            - name: XMPP_AUTH_DOMAIN
+              value: auth.meet.jitsi
+            - name: XMPP_INTERNAL_MUC_DOMAIN
+              value: internal-muc.meet.jitsi
+            - name: XMPP_SERVER
+              value: localhost
