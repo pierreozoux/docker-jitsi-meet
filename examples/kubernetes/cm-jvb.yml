@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-jvb
+data:
+  sip-communicator.properties: |
+    org.jitsi.videobridge.DISABLE_TCP_HARVESTER=true
+    org.ice4j.ice.harvest.ALLOWED_INTERFACES=eth0
+    org.ice4j.ice.harvest.STUN_MAPPING_HARVESTER_ADDRESSES=stun.l.google.com:19302,stun1.l.google.com:19302,stun2.l.google.com:19302
+    org.jitsi.videobridge.xmpp.user.shard.HOSTNAME=localhost
+    org.jitsi.videobridge.xmpp.user.shard.DOMAIN=auth.meet.jitsi
+    org.jitsi.videobridge.xmpp.user.shard.USERNAME=jvb
+    org.jitsi.videobridge.xmpp.user.shard.PASSWORD= // in the secrets
+    org.jitsi.videobridge.xmpp.user.shard.MUC_JIDS=jvbbrewery@internal-muc.meet.jitsi
+    org.jitsi.videobridge.xmpp.user.shard.MUC_NICKNAME=jitsi-87t872872458276285 // not sure what to put here..
+    org.jitsi.videobridge.xmpp.user.shard.DISABLE_CERTIFICATE_VERIFICATION=true
+    org.jitsi.videobridge.ENABLE_STATISTICS=true
+    org.jitsi.videobridge.STATISTICS_TRANSPORT=muc
+    org.jitsi.videobridge.STATISTICS_INTERVAL=5000

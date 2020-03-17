@@ -8,19 +8,6 @@ Create a namespace to deploy jitsi to:
 
 Add the secret with secret values (replace `...` with some random strings):
 
-`kubectl create secret generic jitsi-config --from-literal=JICOFO_COMPONENT_SECRET=... --from-literal=JICOFO_AUTH_PASSWORD=... --from-literal=JVB_AUTH_PASSWORD=... `
+`kubectl create secret generic jitsi-config --from-literal=JICOFO_COMPONENT_SECRET=`openssl rand -base64 18` --from-literal=JICOFO_AUTH_PASSWORD=`openssl rand -base64 18` --from-literal=JVB_AUTH_PASSWORD=`openssl rand -base64 18`
 
-Deploy the service to listen for JVB UDP traffic on all cluster nodes port 30300:
-
-`kubectl create -f jvb-service.yaml`
-
-Now we can deploy the rest of the application:
-
-`kubectl create -f deployment.yaml`
-
-To expose the webapp, we can use Ingress (replace the `host` value with your actual hostname):
-
-`kubectl create -f web-service.yaml`
-
-You can either use "https" or "http" service port, depending on whether your ingress allows self-signed certs.
-
+`k apply -k .`

@@ -6,7 +6,7 @@ metadata:
   name: jitsi
   namespace: jitsi
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: Recreate
   selector:
@@ -17,6 +17,7 @@ spec:
       labels:
         k8s-app: jitsi
     spec:
+      hostNetwork: true
       containers:
         - name: jicofo
           image: jitsi/jicofo
@@ -47,9 +48,18 @@ spec:
             - name: JVB_BREWERY_MUC
               value: jvbbrewery
         - name: prosody
+          volumeMounts:
+          - name: config-prosody
+            mountPath: /usr/lib/prosody/modules/mod_turncredentials.lua
+            subPath: mod_turncredentials.lua
+          - name: config-prosody
+            mountPath: /config/conf.d/turncredentials.cfg.lua
+            subPath: turncredentials.cfg.lua
           image: jitsi/prosody
           imagePullPolicy: Always
           env:
+            - name: XMPP_MODULES
+              value: turncredentials
             - name: JICOFO_AUTH_USER
               value: focus
             - name: JICOFO_AUTH_PASSWORD
@@ -82,6 +92,15 @@ spec:
         - name: web
           image: jitsi/web
           imagePullPolicy: Always
+          volumeMounts:
+          - name: config-jitsi
+            mountPath: /config/interface_config.js
+            subPath: interface_config.js
+          - name: config-jitsi
+            mountPath: /config/config.js
+            subPath: config.js
+          ports:
+          - containerPort: 80
           env:
             - name: JICOFO_AUTH_USER
               value: focus
@@ -100,6 +119,18 @@ spec:
         - name: jvb
           image: jitsi/jvb
           imagePullPolicy: Always
+      - name: jvb
+          volumeMounts:
+          - name: config-jvb
+            mountPath: /config/sip-communicator.properties
+            subPath: sip-communicator.properties
+          ports:
+          - containerPort: 10000
+            hostPort: 10000
+            protocol: TCP
+          - containerPort: 10000
+            hostPort: 10000
+            protocol: UDP
           env:
             - name: DOCKER_HOST_ADDRESS
               value: <Set the address for any node in the cluster here>

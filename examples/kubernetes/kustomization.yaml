@@ -2,3 +2,7 @@ resources:
 - deployment.yaml
 - jvb-service.yaml
 - web-service.yaml
+- cm-jvb.yml
+- cm-prosody.yml
+- cm.yml
+- ing.yml
