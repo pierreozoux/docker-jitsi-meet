@@ -119,7 +119,6 @@ spec:
         - name: jvb
           image: jitsi/jvb
           imagePullPolicy: Always
-      - name: jvb
           volumeMounts:
           - name: config-jvb
             mountPath: /config/sip-communicator.properties
